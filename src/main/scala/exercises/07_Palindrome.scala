@@ -8,6 +8,11 @@ object Palindrome {
    *  Hint: the Scala collections API is your friend
    *  http://docs.scala-lang.org/overviews/collections/overview.html 
    */
-  def isPalindrome(s: String): Boolean = throw new NotImplementedError
+  def isPalindrome(s: String): Boolean = 
+    s.filter(_.isLetter).map(_.toLower) match {
+      case clean if clean.length <= 1 => true
+      case clean if clean.head != clean.last => false
+      case clean => isPalindrome(clean.init.tail)
+    }
 
 }

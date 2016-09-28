@@ -154,30 +154,12 @@ object Collections {
    * The idea is to rewrite the method into more functional style. 
    */
   def separateTheYoungFromTheOld(persons: List[Person]): List[List[String]] = {
-    var youngins: ListBuffer[Person] = new ListBuffer[Person]()
-    var elders: ListBuffer[Person] = new ListBuffer[Person]()
-    var validYoungNames: ListBuffer[String] = new ListBuffer[String]()
-    var validOldNames: ListBuffer[String] = new ListBuffer[String]()
+    val (youngins, elders) = persons.sortBy(_.age).partition(_.age < 18)
 
-    for (person <- persons) {
-        if (person.age < 18) {
-          youngins += person
-        } else {
-          elders += person
-        }
-    }
+    val youngNames = youngins.map(_.firstName)
+    val oldNames = elders.map(_.firstName)
 
-    var sortedYoung = youngins.toList.sortBy(_.age)
-    var sortedOld = elders.toList.sortBy(_.age)
-
-    for (young <- sortedYoung) {
-      validYoungNames += young.firstName
-    }
-    for (old <- sortedOld) {
-      validOldNames += old.firstName
-    }
-    
-    List(validYoungNames.toList, validOldNames.toList)
+    List(youngNames, oldNames)
   }
 }
 
